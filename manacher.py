@@ -56,21 +56,19 @@ def manacher(string):
     right = 0
     center = 0
     string = interleave(string)
-    P = map(lambda e: 0, xrange(len(string)))
+    P = map(lambda e: 0, xrange(len(string)))    # a list of 0 with length of string
     
     for i in xrange(1, len(string)):
         mirror = 2*center - i
         if i + P[mirror] <= right and mirror >= len(string) - i:
-            P[i] = P[mirror]
+            P[i] = P[mirror]  #reuse
         else:
-            plength = get_palindrome_length(string, i)
+            plength = get_palindrome_length(string, i)  #compute
             P[i] = plength
             if plength > 1:
                 center = int(i)
                 right = center + plength
     
-    return [e/2 for e in P]
-
-
+    return [e/2 for e in P]    #because it was interleaved
 def get_palindrome_number(string):
     return sum(manacher(string))
